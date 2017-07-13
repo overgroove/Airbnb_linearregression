@@ -1,19 +1,16 @@
 
 # coding: utf-8
 
-# # 크롤링에 필요한 패키지
-
-# In[19]:
+# # used packages
 
 import requests
 from bs4 import BeautifulSoup
 import numpy as np
-import time
+#import time
 
 
-# ## 검색 url과 저장할 dictionary 정의
+# Define search url and dictionary to save
 
-# In[20]:
 
 base_url = 'http://airbnb.com/rooms/'
 test_room = ''
@@ -21,9 +18,8 @@ test_dic = {}
 test_dic[test_room] = {}
 
 
-# ## 크롤링 함수
+# main function
 
-# In[22]:
 
 def crawler(room, dic=test_dic):
     if room not in dic.keys():
@@ -39,8 +35,6 @@ def crawler(room, dic=test_dic):
         for item in soup.find_all('div', attrs={'class':'star-rating-wrapper'})[3:]:
             i += 1
             dic[room]['review %d'%i] = float(item['aria-label'].split()[1])
-            #if prt: print((i),item['aria-label'])
-        #if prt: print(total)
     except:
         pass
     if super_host:
@@ -48,10 +42,8 @@ def crawler(room, dic=test_dic):
         #if prt: print('superhost')
     else:
         dic[room]['superhost'] = 0
-        #if prt: print('ordinary')
-    #print(total)
-    
-    # 기타 정보
+        
+    # Other information
     tlist = []
     for item in soup.find_all('div', attrs={'class':'col-md-6', 'class':'bottom-spacing-2'}):
         x = item.text
@@ -61,9 +53,3 @@ def crawler(room, dic=test_dic):
             tlist.append(x)
     dic[room]['others'] = tlist
     return dic
-
-
-# In[ ]:
-
-
-
